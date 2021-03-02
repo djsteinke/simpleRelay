@@ -39,7 +39,7 @@ def relay(pin_in, action, time):
     GPIO.setup(int(pin_in), GPIO.OUT)
     if action == "on":
         GPIO.output(int(pin_in), GPIO.HIGH)
-        if time > 0.0:
+        if f_time > 0.0:
             timer = threading.Timer(f_time, relay(pin_in, "off", 0))
             timer.start()
     else:
