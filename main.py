@@ -38,12 +38,12 @@ relay = Relay(0)
 @app.route('/relay/<pin_in>/<action>/<time>')
 def relay_action(pin_in, action, time):
     logger.debug(f"relay[{pin_in}] action[{action}] time[{time}]")
-    f_time = float(time)
+    i_time = int(time)
     relay.set_pin(int(pin_in))
     if action == "on":
         relay.on()
-        if f_time > 0.0:
-            timer = threading.Timer(f_time, relay.off())
+        if i_time > 0:
+            timer = threading.Timer(i_time, relay.off())
             timer.start()
     else:
         relay.off()
