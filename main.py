@@ -35,16 +35,13 @@ GPIO.setwarnings(False)
 relay = Relay(0)
 
 
-@app.route('/relay/<pin_in>/<action>/<time>')
-def relay_action(pin_in, action, time):
-    logger.debug(f"relay[{pin_in}] action[{action}] time[{time}]")
-    i_time = int(time)
+@app.route('/relay/<pin_in>')
+def relay_action(pin_in):
+    logger.debug(f"relay[{pin_in}] action[ON] time[1]")
     relay.set_pin(int(pin_in))
+    action = "on"
     if action == "on":
         relay.on()
-        if i_time > 0:
-            timer = threading.Timer(i_time, relay.off())
-            timer.start()
     else:
         relay.off()
     # pin_state = GPIO.input(pin)
