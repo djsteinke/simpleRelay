@@ -13,6 +13,8 @@ class Relay(object):
 
     def set_pin(self, pin):
         self._pin = pin
+        GPIO.setup(self._pin, GPIO.OUT)
+        GPIO.output(self._pin, GPIO.LOW)
 
     def on(self):
         # TODO turn on
