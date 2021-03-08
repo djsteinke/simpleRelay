@@ -1,10 +1,9 @@
 import logging
 import socket
-import threading
 
 import RPi.GPIO as GPIO
 
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, jsonify, send_from_directory
 
 from relay import Relay
 from static import get_logging_level
@@ -44,7 +43,6 @@ def relay_action(pin_in):
         relay.on()
     else:
         relay.off()
-    # pin_state = GPIO.input(pin)
     return jsonify(message="Success",
                    statusCode=200,
                    data=action), 200
@@ -52,7 +50,8 @@ def relay_action(pin_in):
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico',
+                               mimetype='image/vnd.microsoft.icon')
 
 
 if __name__ == '__main__':
