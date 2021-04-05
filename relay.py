@@ -12,6 +12,12 @@ class Relay(object):
         self._pin = pin
         self._delay = 1
         GPIO.setup(self._pin, GPIO.OUT)
+        if GPIO.input(self._pin) == 0:
+            self._on_state = GPIO.HIGH
+            self._off_state = GPIO.LOW
+        else:
+            self._on_state = GPIO.LOW
+            self._off_state = GPIO.HIGH
         GPIO.output(self._pin, GPIO.LOW)
 
     def set_pin(self, pin):
@@ -25,11 +31,11 @@ class Relay(object):
     def on(self):
         # TODO turn on
         self._on = True
-        GPIO.output(self._pin, GPIO.HIGH)
+        GPIO.output(self._pin, self._on_state)
         timer = threading.Timer(self._delay, self.off)
         timer.start()
 
     def off(self):
         # TODO turn off
         self._on = False
-        GPIO.output(self._pin, GPIO.LOW)
+        GPIO.output(self._pin, self._off_state)
