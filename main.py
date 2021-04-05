@@ -38,14 +38,15 @@ GPIO.setwarnings(False)
 @app.route('/relay/<pin_in>')
 def relay_action(pin_in):
     logger.debug(f"relay[{pin_in}] action[ON] time[1]")
-    relay = RelayLED(pin_in)
-    relay.toggle()
+    #relay = RelayLED(pin_in)
+    #relay.toggle()
+    relay = Relay(int(pin_in))
     #relay.set_pin(int(pin_in))
-    #action = "on"
-    #if action == "on":
-    #    relay.on()
-    #else:
-    #    relay.off()
+    action = "on"
+    if action == "on":
+        relay.on()
+    else:
+        relay.off()
     return jsonify(message="Success",
                    statusCode=200,
                    data="0n"), 200
