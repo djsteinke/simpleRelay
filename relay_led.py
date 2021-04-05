@@ -1,17 +1,18 @@
+import threading
 from gpiozero import LED
 
 
-class Relay(object):
+class RelayLED(object):
     def __init__(self, pin):
-        self._delay = 0
-        self._led = LED(pin)
-
-    def set_pin(self, pin):
-        self._led = LED(pin)
+        self._delay = 1
+        self._led = LED(pin=pin,initial_value=None)
 
     def set_delay(self, delay_in):
         self._delay = delay_in
 
-    def blink(self):
-        self._led.blink()
+    def toggle(self):
+        self._led.toggle()
+        timer = threading.Timer(self._delay, self.toggle)
+        timer.start()
+
 

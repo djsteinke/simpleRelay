@@ -7,6 +7,7 @@ from flask import Flask, jsonify, send_from_directory
 
 from gpiozero import LED
 from relay import Relay
+from relay_led import RelayLED
 from static import get_logging_level
 from properties import ip, port
 import os
@@ -33,14 +34,12 @@ logger.addHandler(ch)
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-relay = Relay(0)
-
 
 @app.route('/relay/<pin_in>')
 def relay_action(pin_in):
     logger.debug(f"relay[{pin_in}] action[ON] time[1]")
-    led = LED(pin=pin_in, initial_value=None)
-    led.off(off_time=1)
+    relay = RelayLED(pin_in)
+    relay.toggle()
     #relay.set_pin(int(pin_in))
     #action = "on"
     #if action == "on":
