@@ -49,7 +49,7 @@ def relay_action(pin_in):
     #    relay.off()
     return jsonify(message="Success",
                    statusCode=200,
-                   data=action), 200
+                   data="0n"), 200
 
 
 @app.route('/favicon.ico')
