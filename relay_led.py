@@ -19,5 +19,6 @@ class RelayLED(object):
             self._on = True
         else:
             self._on = False
+            self._led.close()
 
 
