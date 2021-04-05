@@ -1,6 +1,6 @@
 import threading
 
-import gpiozero as gpio
+import RPi.GPIO as GPIO
 
 #GPIO.setmode(GPIO.BCM)
 #GPIO.setwarnings(False)
