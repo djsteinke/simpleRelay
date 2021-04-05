@@ -39,8 +39,8 @@ relay = Relay(0)
 @app.route('/relay/<pin_in>')
 def relay_action(pin_in):
     logger.debug(f"relay[{pin_in}] action[ON] time[1]")
-    led = LED(pin_in)
-    led.blink()
+    led = LED(pin=pin_in, initial_value=None)
+    led.off(off_time=1)
     #relay.set_pin(int(pin_in))
     #action = "on"
     #if action == "on":
