@@ -13,11 +13,10 @@ class RelayLED(object):
 
     def toggle(self):
         self._led.toggle()
-        if not self._on:
-            timer = threading.Timer(self._delay, self.toggle)
-            timer.start()
-            self._on = True
-        else:
-            self._on = False
+        timer = threading.Timer(self._delay, self.reset)
+        timer.start()
+
+    def reset(self):
+        self._led.toggle()
 
 
