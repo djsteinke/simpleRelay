@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 
 from flask import Flask, jsonify, send_from_directory
 
+from gpiozero import LED
 from relay import Relay
 from static import get_logging_level
 import os
@@ -37,12 +38,14 @@ relay = Relay(0)
 @app.route('/relay/<pin_in>')
 def relay_action(pin_in):
     logger.debug(f"relay[{pin_in}] action[ON] time[1]")
-    relay.set_pin(int(pin_in))
-    action = "on"
-    if action == "on":
-        relay.on()
-    else:
-        relay.off()
+    led = LED(pin_in)
+    led.blink()
+    #relay.set_pin(int(pin_in))
+    #action = "on"
+    #if action == "on":
+    #    relay.on()
+    #else:
+    #    relay.off()
     return jsonify(message="Success",
                    statusCode=200,
                    data=action), 200

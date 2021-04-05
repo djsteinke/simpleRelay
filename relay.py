@@ -1,9 +1,9 @@
 import threading
 
-import RPi.GPIO as GPIO
+import gpiozero as gpio
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
+#GPIO.setmode(GPIO.BCM)
+#GPIO.setwarnings(False)
 
 
 class Relay(object):
