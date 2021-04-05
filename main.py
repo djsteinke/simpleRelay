@@ -8,6 +8,7 @@ from flask import Flask, jsonify, send_from_directory
 from gpiozero import LED
 from relay import Relay
 from static import get_logging_level
+from properties import ip, port
 import os
 
 app = Flask(__name__)
@@ -62,9 +63,9 @@ if __name__ == '__main__':
     logger.info("machine host_name[" + host_name + "]")
     print(host_name + "[" + host_name[0: 3] + "]")
     if host_name[0: 3] == "192" or host_name[0: 3] == "127":
-        host_name = "192.168.0.140"
+        host_name = ip
     else:
         host_name = "localhost"
     logger.info("app host_name[" + host_name + "]")
     # app.run(ssl_context='adhoc', host=host_name, port=1983)
-    app.run(host=host_name, port=1983)
+    app.run(host=host_name, port=port)
