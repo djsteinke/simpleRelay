@@ -12,6 +12,8 @@ from static import get_logging_level
 from properties import ip, port
 import os
 
+from tof import TOF
+
 app = Flask(__name__)
 
 # create logger with 'spam_application'
@@ -34,6 +36,8 @@ logger.addHandler(ch)
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
+tof = TOF()
+
 
 @app.route('/relay/<pin_in>')
 def relay_action(pin_in):
@@ -43,6 +47,20 @@ def relay_action(pin_in):
     return jsonify(message="Success",
                    statusCode=200,
                    data="0n"), 200
+
+
+@app.route('/door/<action>')
+def door(action):
+    global tof
+    val = action
+    if action == 'on':
+        tof.start()
+    elif action == "off":
+        tof.stop()
+    else:
+        val = tof.range
+    return {"value": val}, 200
+
 
 
 @app.route('/favicon.ico')
