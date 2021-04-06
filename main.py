@@ -73,6 +73,7 @@ def favicon():
 
 
 if __name__ == '__main__':
+    global tof
     host_name = socket.gethostbyname(socket.gethostname())
     logger.info("machine host_name[" + host_name + "]")
     print(host_name + "[" + host_name[0: 3] + "]")
@@ -82,5 +83,5 @@ if __name__ == '__main__':
         host_name = "localhost"
     logger.info("app host_name[" + host_name + "]")
     # app.run(ssl_context='adhoc', host=host_name, port=1983)
+    tof.start()
     app.run(host=host_name, port=port)
-    door('on')
