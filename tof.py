@@ -33,11 +33,10 @@ class TOF(object):
         avg = 0
         if cnt > 0:
             avg = tot/cnt
-        return avg
+            self._range = avg
 
     def run(self):
         while self._running:
-            self._range = self.get_range()
             timer = threading.Timer(self._delay, self.run)
             timer.start()
 
