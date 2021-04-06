@@ -57,6 +57,7 @@ class TOF(object):
             timer.start()
 
     def stop(self):
+        logger.debug("stop()")
         self._running = False
 
     @property
