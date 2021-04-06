@@ -55,10 +55,11 @@ def door(action):
         tof.start()
     elif action == "off":
         tof.stop()
-    else:
+    elif action == 'get':
         val = tof.range
+    else:
+        val = "Invalid action"
     return {"value": val}, 200
-
 
 
 @app.route('/favicon.ico')
@@ -76,5 +77,6 @@ if __name__ == '__main__':
     else:
         host_name = "localhost"
     logger.info("app host_name[" + host_name + "]")
+    tof.start()
     # app.run(ssl_context='adhoc', host=host_name, port=1983)
     app.run(host=host_name, port=port)
