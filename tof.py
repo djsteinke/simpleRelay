@@ -14,9 +14,9 @@ class TOF(object):
 
     def get_range(self):
         logger.debug("get_range().begin")
-        sensor = VL53L0X.VL53L0X(i2c_bus=3,i2c_address=0x29)
+        sensor = VL53L0X.VL53L0X(i2c_bus=3, i2c_address=0x29)
         sensor.open()
-        sensor.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BEST)
+        sensor.start_ranging(VL53L0X.Vl53l0xAccuracyMode.GOOD)
         timing = sensor.get_timing()
         if timing < 20000:
             timing = 20000
