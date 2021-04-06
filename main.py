@@ -51,6 +51,7 @@ def relay_action(pin_in):
 @app.route('/door/<action>')
 def door(action):
     global tof
+    logger.info(f"door({action})")
     val = action
     if action == 'on':
         tof.start()
