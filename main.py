@@ -82,5 +82,4 @@ if __name__ == '__main__':
     logger.info("app host_name[" + host_name + "]")
     # app.run(ssl_context='adhoc', host=host_name, port=1983)
     app.run(host=host_name, port=port)
-    x = threading.Thread(target=door, args=(1, 'on'))
-    x.start()
+    door('on')
