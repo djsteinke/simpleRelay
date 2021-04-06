@@ -8,10 +8,9 @@ class TOF(object):
         self._running = False
         self._range = 0
         self._delay = 10
-        self._sensor = VL53L0X.VL53L0X(i2c_bus=3, i2c_address=0x29)
+        self._sensor = VL53L0X.VL53L0X(i2c_bus=3,i2c_address=0x29)
 
     def get_range(self):
-        self._sensor.open()
         self._sensor.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BEST)
         timing = self._sensor.get_timing()
         if timing < 20000:
@@ -42,6 +41,7 @@ class TOF(object):
 
     def start(self):
         if not self._running:
+            self._sensor.open()
             self._running = True
             self.run()
 
