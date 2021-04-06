@@ -36,14 +36,14 @@ class TOF(object):
 
     def run(self):
         while self._running:
+            self.get_range()
             timer = threading.Timer(self._delay, self.run)
             timer.start()
 
     def start(self):
         if not self._running:
             self._running = True
-            timer = threading.Timer(1, self.run)
-            # self.run()
+            timer = threading.Timer(0, self.run)
             timer.start()
 
     def stop(self):
