@@ -12,7 +12,7 @@ class TOF(object):
 
     def get_range(self):
         self._sensor.open()
-        self._sensor.start_ranging(VL53L0X.V15310xAccuracyMode.BEST)
+        self._sensor.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BEST)
         timing = self._sensor.get_timing()
         if timing < 20000:
             timing = 20000
