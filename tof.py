@@ -30,7 +30,6 @@ class TOF(object):
             time.sleep(timing/1000000.0)
         sensor.stop_ranging()
         sensor.close()
-        avg = 0
         if cnt > 0:
             avg = tot/cnt
             self._range = avg
