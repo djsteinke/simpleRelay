@@ -39,6 +39,9 @@ class TOF(object):
             avg = tot/cnt
             self._range = avg
         logger.debug("get_range().end")
+        if self._running:
+            timer = threading.Timer(self._delay, self.get_range)
+            timer.start()
 
     def get_status(self):
         if self._running:
@@ -46,18 +49,11 @@ class TOF(object):
         else:
             return "stopped"
 
-    def run(self):
-        while self._running:
-            logger.debug("run()")
-            self.get_range()
-            timer = threading.Timer(self._delay, self.run)
-            timer.start()
-
     def start(self):
         if not self._running:
             logger.debug("start()")
             self._running = True
-            timer = threading.Timer(0, self.run)
+            timer = threading.Timer(0, self.get_range)
             timer.start()
 
     def stop(self):
