@@ -13,7 +13,7 @@ class TOF(object):
         self._delay = 60
 
     def get_range(self):
-        logger.debug("get_range()")
+        logger.debug("get_range().begin")
         sensor = VL53L0X.VL53L0X(i2c_bus=3,i2c_address=0x29)
         sensor.open()
         sensor.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BEST)
@@ -38,6 +38,7 @@ class TOF(object):
         if cnt > 0:
             avg = tot/cnt
             self._range = avg
+        logger.debug("get_range().end")
 
     def get_status(self):
         if self._running:
