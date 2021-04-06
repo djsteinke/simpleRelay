@@ -5,14 +5,12 @@ import RPi.GPIO as GPIO
 
 from flask import Flask, jsonify, send_from_directory
 
-from gpiozero import LED
 from relay import Relay
-from relay_led import RelayLED
 from static import get_logging_level
 from properties import ip, port
 import os
 
-from tof import TOF
+from VL53L0X_rasp_python.python.tof import TOF
 
 app = Flask(__name__)
 
