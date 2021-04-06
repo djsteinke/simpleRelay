@@ -1,5 +1,6 @@
 import logging
 import socket
+import threading
 
 import RPi.GPIO as GPIO
 
@@ -53,7 +54,7 @@ def door(action):
     val = action
     if action == 'on':
         tof.start()
-    elif action == "off":
+    elif action == 'off':
         tof.stop()
     elif action == 'get':
         val = tof.range
@@ -77,6 +78,7 @@ if __name__ == '__main__':
     else:
         host_name = "localhost"
     logger.info("app host_name[" + host_name + "]")
-    tof.start()
     # app.run(ssl_context='adhoc', host=host_name, port=1983)
     app.run(host=host_name, port=port)
+    x = threading.Thread(target=door, args=(1, 'on'))
+    x.start()
