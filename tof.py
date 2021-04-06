@@ -1,6 +1,6 @@
 import time
 import threading
-import VL53L0X_rasp_python.python.VL53L0X as VL53L0X
+import VL53L0X.python.VL53L0X as VL53L0X
 
 
 class TOF(object):
@@ -12,7 +12,7 @@ class TOF(object):
 
     def get_range(self):
         self._sensor.open()
-        self._sensor.start_ranging(VL53L0X.VL53L0XxAccuracyMode.BEST)
+        self._sensor.start_ranging(VL53L0X.V15310xAccuracyMode.BEST)
         timing = self._sensor.get_timing()
         if timing < 20000:
             timing = 20000
