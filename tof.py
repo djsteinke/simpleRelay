@@ -1,7 +1,9 @@
 import time
 import threading
 import VL53L0X.python.VL53L0X as VL53L0X
+import logging
 
+logger = logging.getLogger('main.program')
 
 class TOF(object):
     def __init__(self):
@@ -22,6 +24,7 @@ class TOF(object):
         while cnt < 3:
             distance = sensor.get_distance()
             if distance > 0:
+                logger.debug("measured: " + distance)
                 tot += distance
                 cnt += 1
             t_cnt += 1
