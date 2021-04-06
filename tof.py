@@ -5,6 +5,7 @@ import logging
 
 logger = logging.getLogger('main.program')
 
+
 class TOF(object):
     def __init__(self):
         self._running = False
@@ -12,6 +13,7 @@ class TOF(object):
         self._delay = 60
 
     def get_range(self):
+        logger.debug("get_range()")
         sensor = VL53L0X.VL53L0X(i2c_bus=3,i2c_address=0x29)
         sensor.open()
         sensor.start_ranging(VL53L0X.Vl53l0xAccuracyMode.BEST)
@@ -45,12 +47,14 @@ class TOF(object):
 
     def run(self):
         while self._running:
+            logger.debug("run()")
             self.get_range()
             timer = threading.Timer(self._delay, self.run)
             timer.start()
 
     def start(self):
         if not self._running:
+            logger.debug("start()")
             self._running = True
             timer = threading.Timer(0, self.run)
             timer.start()
