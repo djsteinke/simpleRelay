@@ -10,7 +10,7 @@ from static import get_logging_level
 from properties import ip, port
 import os
 
-from VL53L0X_rasp_python.python.tof import TOF
+from tof import TOF
 
 app = Flask(__name__)
 
