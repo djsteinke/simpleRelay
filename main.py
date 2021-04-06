@@ -58,6 +58,8 @@ def door(action):
         tof.stop()
     elif action == 'get':
         val = tof.range
+    elif action == 'status':
+        val = tof.get_status()
     else:
         val = "Invalid action"
     return {"value": val}, 200

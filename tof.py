@@ -34,6 +34,12 @@ class TOF(object):
             avg = tot/cnt
             self._range = avg
 
+    def get_status(self):
+        if self._running:
+            return "running"
+        else:
+            return "stopped"
+
     def run(self):
         while self._running:
             self.get_range()
