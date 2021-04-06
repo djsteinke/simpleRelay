@@ -26,7 +26,7 @@ class TOF(object):
         while cnt < 3:
             distance = sensor.get_distance()
             if distance > 0:
-                logger.debug("measured: " + distance)
+                logger.debug("measured: " + str(distance))
                 tot += distance
                 cnt += 1
             t_cnt += 1
