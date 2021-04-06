@@ -73,7 +73,6 @@ def favicon():
 
 
 if __name__ == '__main__':
-    global tof
     host_name = socket.gethostbyname(socket.gethostname())
     logger.info("machine host_name[" + host_name + "]")
     print(host_name + "[" + host_name[0: 3] + "]")
