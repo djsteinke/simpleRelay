@@ -53,7 +53,7 @@ class TOF(object):
         if not self._running:
             logger.debug("start()")
             self._running = True
-            timer = threading.Timer(0, self.get_range)
+            timer = threading.Timer(15, self.get_range)
             timer.start()
 
     def stop(self):
