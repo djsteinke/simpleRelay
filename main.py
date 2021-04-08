@@ -1,6 +1,7 @@
 import logging
 import socket
 import threading
+import datetime as dt
 
 import RPi.GPIO as GPIO
 
@@ -8,7 +9,7 @@ from flask import Flask, jsonify, send_from_directory
 
 from relay import Relay
 from static import get_logging_level
-from properties import ip, port
+from properties import ip, port, end_time, start_time
 import os
 
 from tof import TOF
@@ -41,11 +42,15 @@ tof = TOF()
 @app.route('/relay/<pin_in>')
 def relay_action(pin_in):
     logger.debug(f"relay[{pin_in}] action[ON] time[1]")
-    relay = Relay(int(pin_in))
-    relay.on()
+    hr = dt.datetime.hour
+    status = 200
+    if start_time <= hr < end_time:
+        relay = Relay(int(pin_in))
+        relay.on()
+    else:
+        status = 503
     return jsonify(message="Success",
-                   statusCode=200,
-                   data="0n"), 200
+                   statusCode=status), status
 
 
 @app.route('/door/<action>')
