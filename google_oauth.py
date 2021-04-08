@@ -26,7 +26,7 @@ def main():
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', SCOPES)
-            creds = flow.from_client_secrets_file(client_secrets_file='credentials.json')
+            creds = flow.from_client_secrets_file(client_secrets_file='credentials.json', scopes=SCOPES)
         # Save the credentials for the next run
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
