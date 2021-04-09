@@ -1,6 +1,9 @@
 import logging
+import os
 
 import properties
+
+fdir = os.path.abspath('/home/pi/projects/simpleRelay')
 
 
 def get_logging_level():
