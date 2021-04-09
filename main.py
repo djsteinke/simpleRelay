@@ -42,7 +42,7 @@ tof = TOF()
 @app.route('/relay/<pin_in>')
 def relay_action(pin_in):
     logger.debug(f"relay[{pin_in}] action[ON] time[1]")
-    hr = dt.datetime.hour
+    hr = dt.datetime.now().hour
     status = 200
     if start_time <= hr < end_time:
         relay = Relay(int(pin_in))
