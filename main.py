@@ -43,8 +43,12 @@ tof = TOF()
 def relay_action(pin_in):
     logger.debug(f"relay[{pin_in}] action[ON] time[1]")
     status = 200
-    relay = Relay(int(pin_in))
-    relay.on()
+    hr = dt.datetime.now().
+    if start_time <= hr < end_time:
+        relay = Relay(int(pin_in))
+        relay.on()
+    else:
+        status = 503
     return jsonify(message="Success",
                    statusCode=status), status
 
