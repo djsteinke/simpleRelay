@@ -1,6 +1,7 @@
 from __future__ import print_function
 import os.path
 import threading
+import time
 
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -54,7 +55,7 @@ def main():
 
 
 def check_auth():
-    global secrets, path_token, device
+    global secrets, path_token, device, creds
     url = 'https://oauth2.googleapis.com/token'
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
     data = f'client_id={secrets["client_id"]}&client_secret={secrets["client_secret"]}&device_code={device["device_code"]}'
@@ -66,11 +67,13 @@ def check_auth():
     print(json.dumps(r_json))
     if 'error' in r_json:
         print('error path')
-        threading.Timer(device['interval'], check_auth)
+        time.sleep(device['interval'])
+        check_auth()
     elif 'access_token' in r_json:
         print('access_token path')
         f = open(path_token, "w")
         f.write(json.dumps(r_json))
+        creds = Credentials.from_authorized_user_file(path_token, SCOPES)
         check_email()
     else:
         print(json.dumps(r_json))
@@ -94,6 +97,4 @@ def check_email():
 
 if __name__ == '__main__':
     main()
-    while True:
-        x = 1
 
