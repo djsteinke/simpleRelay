@@ -16,6 +16,7 @@ path_token = os.path.join(path, 'token.json')
 path_client = os.path.join(path, 'client_secrets.json')
 secrets = {}
 
+
 def main():
     global secrets, path_token, path_client
     """Shows basic usage of the Gmail API.
@@ -26,7 +27,8 @@ def main():
     # created automatically when the authorization flow completes for the first
     # time.
     if os.path.exists(path_client):
-        secrets = json.loads(open(path_client, "r").read())
+        par = json.loads(open(path_client, "r").read())
+        secrets = par['installed']
     else:
         print('client_secrets.json missing')
         exit()
