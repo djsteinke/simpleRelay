@@ -4,6 +4,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+import requests
 import json
 
 # If modifying these scopes, delete the file token.json.
@@ -25,9 +26,14 @@ def main():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            csf = json.load(open('credentials.json', 'r'))
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', SCOPES)
+            url = 'https://oauth2.googleapis.com/device/code'
+            client_id = '769546523664-28ib024nreraldlosa7rsadtngedjabd.apps.googleusercontent.com'
+            headers = {'Content-type': 'application/x-www-form-urlencoded'}
+            data = f'client_id={client_id}&scope=email%20profile'
+            r = requests.post(url=url, headers=headers, data=data)
+            print(r)
             creds = flow.run_local_server(host='fakedomain.com', port=0)
         # Save the credentials for the next run
         with open('token.json', 'w') as token:
