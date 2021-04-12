@@ -42,7 +42,7 @@ def main():
         creds = Credentials(
             token_str,
             refresh_token=credentials_dict["refresh_token"],
-            # token_uri=credentials_dict["token_uri"],
+            token_uri=secrets["token_uri"],
             client_id=secrets["client_id"],
             client_secret=secrets["client_secret"],
             scopes=credentials_dict["scope"])
