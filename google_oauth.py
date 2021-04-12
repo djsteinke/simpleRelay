@@ -92,7 +92,8 @@ def check_email():
             print(label['name'])
 
 
-
 if __name__ == '__main__':
     main()
+    while True:
+        x = 1
 
