@@ -69,13 +69,13 @@ def main():
 
 def check_auth(device):
     global secrets, path_token
-    url = 'https://oauth2.googleapis.com'
+    url = 'https://oauth2.googleapis.com/token'
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
     data = f'client_id={secrets["client_id"]}&client_secret={secrets["client_secret"]}&device_code={device["device_code"]}'
     data += '&grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Adevice_code'
     r = requests.post(url=url, headers=headers, data=data)
     r_str = r.content
-    print(r_str)
+    #print(r_str)
     r_json = json.loads(r_str)
     if "error" in r_json:
         threading.Timer(secrets['interval'], check_auth)
