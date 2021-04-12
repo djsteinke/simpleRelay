@@ -35,8 +35,8 @@ def main():
         print('client_secrets.json missing')
         exit()
 
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file(path_token, SCOPES)
+    if os.path.exists(path_token):
+        creds = Credentials.with_quota_project(token=path_token, scopes=SCOPES, client_id=secrets['client_id'], client_secret=secrets['client_secret'])
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
