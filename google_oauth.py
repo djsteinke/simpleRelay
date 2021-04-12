@@ -78,7 +78,7 @@ def check_auth(device):
     #print(r_str)
     r_json = json.loads(r_str)
     if "error" in r_json:
-        threading.Timer(secrets['interval'], check_auth)
+        threading.Timer(device['interval'], check_auth)
     elif "access_token" in r_json:
         f = open(path_token, "w")
         f.write(json.dumps(r_json, indent=4))
