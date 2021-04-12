@@ -16,14 +16,14 @@ path_token = os.path.join(path, 'token.json')
 path_client = os.path.join(path, 'client_secrets.json')
 secrets = {}
 device = {}
+creds = None
 
 
 def main():
-    global secrets, path_token, path_client, device
+    global secrets, path_token, path_client, device, creds
     """Shows basic usage of the Gmail API.
     Lists the user's Gmail labels.
     """
-    creds = None
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
@@ -51,22 +51,6 @@ def main():
             print(r_str)
             device = r_json
             check_auth()
-        # Save the credentials for the next run
-        with open(path_token, 'w') as token:
-            token.write(creds.to_json())
-
-    service = build('gmail', 'v1', credentials=creds)
-
-    # Call the Gmail API
-    results = service.users().labels().list(userId='me').execute()
-    labels = results.get('labels', [])
-
-    if not labels:
-        print('No labels found.')
-    else:
-        print('Labels:')
-        for label in labels:
-            print(label['name'])
 
 
 def check_auth():
@@ -81,13 +65,32 @@ def check_auth():
     r_json = json.loads(r_str)
     print(json.dumps(r_json))
     if 'error' in r_json:
+        print('error path')
         threading.Timer(device['interval'], check_auth)
     elif 'access_token' in r_json:
-            f = open(path_token, "w")
-            f.write(json.dumps(r_json, indent=4))
-            main()
+        print('access_token path')
+        f = open(path_token, "w")
+        f.write(json.dumps(r_json))
+        check_email()
     else:
         print(json.dumps(r_json))
+
+
+def check_email():
+    global creds
+    service = build('gmail', 'v1', credentials=creds)
+
+    # Call the Gmail API
+    results = service.users().labels().list(userId='me').execute()
+    labels = results.get('labels', [])
+
+    if not labels:
+        print('No labels found.')
+    else:
+        print('Labels:')
+        for label in labels:
+            print(label['name'])
+
 
 
 if __name__ == '__main__':
