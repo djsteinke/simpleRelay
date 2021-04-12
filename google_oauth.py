@@ -37,7 +37,8 @@ def main():
 
     if os.path.exists(path_token):
         token_str = open(path_token, 'r')
-        creds = Credentials.with_quota_project(token_str, scopes=SCOPES, client_id=secrets['client_id'], client_secret=secrets['client_secret'])
+        creds = Credentials.with_quota_project(token_str, scopes=SCOPES, client_id=secrets['client_id'],
+                                               client_secret=secrets['client_secret'])
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
