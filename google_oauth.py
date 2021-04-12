@@ -66,18 +66,16 @@ def check_auth():
     data += '&grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Adevice_code'
     r = requests.post(url=url, headers=headers, data=data)
     r_str = r.content
-    print(r_str)
     r_json = json.loads(r_str)
     print(json.dumps(r_json))
     if 'error' in r_json:
-        print('error path')
         time.sleep(device['interval'])
         check_auth()
     elif 'access_token' in r_json:
-        print('access_token path')
+        creds = Credentials.from_authorized_user_file(path_client, SCOPES)
+        creds.token = r_json
         f = open(path_token, "w")
-        f.write(json.dumps(r_json))
-        creds = Credentials.from_authorized_user_file(path_token, SCOPES)
+        f.write(creds.to_json())
         check_email()
     else:
         print(json.dumps(r_json))
