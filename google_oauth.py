@@ -33,7 +33,9 @@ def main():
             headers = {'Content-type': 'application/x-www-form-urlencoded'}
             data = f'client_id={client_id}&scope=email%20profile'
             r = requests.post(url=url, headers=headers, data=data)
-            print(r)
+            r_str = r.content
+            r_json = json.loads(r_str)
+            print(r_str)
             creds = flow.run_local_server(host='fakedomain.com', port=0)
         # Save the credentials for the next run
         with open('token.json', 'w') as token:
