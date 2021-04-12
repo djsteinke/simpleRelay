@@ -42,6 +42,7 @@ def main():
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
+            check_email()
         else:
             url = 'https://oauth2.googleapis.com/device/code'
             client_id = '769546523664-28ib024nreraldlosa7rsadtngedjabd.apps.googleusercontent.com'
@@ -53,6 +54,8 @@ def main():
             print(r_str)
             device = r_json
             check_auth()
+    else:
+        check_email()
 
 
 def check_auth():
