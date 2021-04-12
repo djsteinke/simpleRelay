@@ -11,7 +11,7 @@ import requests
 import json
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ['email']
+SCOPES = ['https://www.googleapis.com/auth/gmail.compose']
 path = os.path.abspath('/home/pi/projects/simpleRelay')
 path_token = os.path.join(path, 'token.json')
 path_client = os.path.join(path, 'client_secrets.json')
