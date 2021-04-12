@@ -36,7 +36,7 @@ def main():
         exit()
 
     if os.path.exists(path_token):
-        token_str = open(path_token, 'r')
+        token_str = open(path_token, 'r').read()
         credentials_dict = json.loads(token_str)
 
         creds = Credentials(
