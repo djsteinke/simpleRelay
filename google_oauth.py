@@ -45,7 +45,7 @@ def main():
             token_uri=secrets["token_uri"],
             client_id=secrets["client_id"],
             client_secret=secrets["client_secret"],
-            scopes=credentials_dict["scope"])
+            scopes=SCOPES)
         # creds = Credentials(token_str, scopes=SCOPES, client_id=secrets['client_id'], client_secret=secrets['client_secret'])
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
