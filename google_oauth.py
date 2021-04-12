@@ -15,10 +15,11 @@ path = os.path.abspath('/home/pi/projects/simpleRelay')
 path_token = os.path.join(path, 'token.json')
 path_client = os.path.join(path, 'client_secrets.json')
 secrets = {}
+device = {}
 
 
 def main():
-    global secrets, path_token, path_client
+    global secrets, path_token, path_client, device
     """Shows basic usage of the Gmail API.
     Lists the user's Gmail labels.
     """
@@ -48,7 +49,8 @@ def main():
             r_str = r.content
             r_json = json.loads(r_str)
             print(r_str)
-            check_auth(r_json)
+            device = r_json
+            check_auth()
         # Save the credentials for the next run
         with open(path_token, 'w') as token:
             token.write(creds.to_json())
@@ -67,8 +69,8 @@ def main():
             print(label['name'])
 
 
-def check_auth(device):
-    global secrets, path_token
+def check_auth():
+    global secrets, path_token, device
     url = 'https://oauth2.googleapis.com/token'
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
     data = f'client_id={secrets["client_id"]}&client_secret={secrets["client_secret"]}&device_code={device["device_code"]}'
