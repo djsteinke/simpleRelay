@@ -27,7 +27,7 @@ def main():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'gcredentials.json', SCOPES)
+                'client_secrets.json', SCOPES)
             url = 'https://oauth2.googleapis.com/device/code'
             client_id = '769546523664-28ib024nreraldlosa7rsadtngedjabd.apps.googleusercontent.com'
             headers = {'Content-type': 'application/x-www-form-urlencoded'}
