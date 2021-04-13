@@ -40,7 +40,8 @@ def main():
     service = build('gmail', 'v1', credentials=creds)
 
     try:
-        message = (service.users().messages().send(userId='me', body=create_message(None, None, None, None))
+        msg = create_message(None, None, None, None)
+        message = (service.users().messages().send(userId='me', body=msg['raw'])
                    .execute())
         print('Message Id: %s' % message['id'])
         return message
@@ -53,8 +54,8 @@ def create_message(sender, to, subject, message_text):
     message['to'] = TEXT_EMAIL
     message['from'] = 'pi'
     message['subject'] = 'pi text'
-    # return {'raw': base64.urlsafe_b64encode(message.as_string())}
-    return base64.urlsafe_b64encode(message.as_string())
+    return {'raw': base64.urlsafe_b64encode(message.as_string())}
+    # return base64.urlsafe_b64encode(message.as_string())
 
 
 if __name__ == '__main__':
