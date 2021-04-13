@@ -21,7 +21,7 @@ class Notify(object):
         r = self._tof.range
         logger.debug(f'Range[{r}]')
         if start_time > hr >= end_time:
-            if r < 400:
+            if 0 < r < 300:
                 if not self._sent or self._cnt > 15:
                     Text('Garage Door Open').send()
                     self._sent = True
