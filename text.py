@@ -54,7 +54,7 @@ def create_message(sender, to, subject, message_text):
     message['to'] = TEXT_EMAIL
     message['from'] = 'pi'
     message['subject'] = 'pi text'
-    return {'raw': base64.urlsafe_b64encode(message.as_string())}
+    return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
     # return base64.urlsafe_b64encode(message.as_string())
 
 
