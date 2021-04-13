@@ -1,3 +1,4 @@
+import logging
 import threading
 import datetime as dt
 
@@ -5,6 +6,7 @@ from properties import start_time, end_time
 from text import Text
 
 interval = 60
+logger = logging.getLogger('main.program')
 
 
 class Notify(object):
@@ -17,7 +19,7 @@ class Notify(object):
     def check(self):
         hr = dt.datetime.now().hour
         r = self._tof.get_range()
-        print(f'Notify: Range[{r}]')
+        logger.debug(f'Range[{r}]')
         if start_time > hr >= end_time:
             if r < 400:
                 if not self._sent or self._cnt > 15:
