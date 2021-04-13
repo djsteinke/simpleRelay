@@ -21,3 +21,7 @@ Flask-User==1.0.1.5
 pytest==3.0.5
 pytest-cov==2.4.0
 
+#google
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib

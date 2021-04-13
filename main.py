@@ -7,6 +7,7 @@ import RPi.GPIO as GPIO
 
 from flask import Flask, jsonify, send_from_directory
 
+from notify import Notify
 from relay import Relay
 from static import get_logging_level
 from properties import ip, port, end_time, start_time
@@ -37,6 +38,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 tof = TOF()
+notify = Notify(tof)
 
 
 @app.route('/relay/<pin_in>')
@@ -86,6 +88,6 @@ if __name__ == '__main__':
     else:
         host_name = "localhost"
     logger.info(f"app host_name[{host_name}]")
-    # app.run(ssl_context='adhoc', host=host_name, port=1983)
     tof.start()
+    notify.start()
     app.run(host=host_name, port=port)

@@ -4,11 +4,8 @@ from email.mime.text import MIMEText
 
 from googleapiclient import errors
 from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-
-# If modifying these scopes, delete the file token.json.
 from properties import TEXT_EMAIL
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/gmail.compose']
@@ -17,46 +14,35 @@ path_token = os.path.join(path, 'token.json')
 path_client = os.path.join(path, 'client_secrets.json')
 
 
-def main():
-    """Shows basic usage of the Gmail API.
-    Lists the user's Gmail labels.
-    """
-    creds = None
-    # The file token.json stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists(path_token):
-        creds = Credentials.from_authorized_user_file(path_token, SCOPES)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            print('missing/invalid token')
-            exit()
-        with open(path_token, 'w') as token:
-            token.write(creds.to_json())
-
-    service = build('gmail', 'v1', credentials=creds)
-
-    try:
-        msg = create_message(None, None, None, None)
-        message = (service.users().messages().send(userId='me', body=msg)
-                   .execute())
-        print('Message Id: %s' % message['id'])
-        return message
-    except errors.HttpError as error:
-        print('An error occurred: %s' % error)
-
-
 def create_message(sender, to, subject, message_text):
-    message = MIMEText('test')
-    message['to'] = TEXT_EMAIL
-    message['from'] = 'pi'
-    message['subject'] = 'pi text'
+    message = MIMEText(message_text)
+    message['to'] = to
+    message['from'] = sender
+    message['subject'] = subject
     return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
-    # return base64.urlsafe_b64encode(message.as_string())
 
 
-if __name__ == '__main__':
-    main()
+class Text(object):
+    def __init__(self, message_text):
+        self._credentials = None
+        if os.path.exists(path_token):
+            self._credentials = Credentials.from_authorized_user_file(path_token, SCOPES)
+        if not self._credentials or not self._credentials.valid:
+            if self._credentials and self._credentials.expired and self._credentials.refresh_token:
+                self._credentials.refresh(Request())
+            else:
+                print('Missing/Invalid token. Follow steps to create token.')
+                exit()
+            with open(path_token, 'w') as token:
+                token.write(self._credentials.to_json())
+        self._msg = create_message('me', TEXT_EMAIL, 'RPi Garage', message_text)
+
+    def send(self):
+        service = build('gmail', 'v1', credentials=self._credentials)
+        try:
+            message = (service.users().messages().send(userId='me', body=self._msg)
+                       .execute())
+            print('Message Id: %s' % message['id'])
+            return message
+        except errors.HttpError as error:
+            print('An error occurred: %s' % error)
