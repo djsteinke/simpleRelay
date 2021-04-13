@@ -18,7 +18,7 @@ class Notify(object):
 
     def check(self):
         hr = dt.datetime.now().hour
-        r = self._tof.get_range()
+        r = self._tof.range
         logger.debug(f'Range[{r}]')
         if start_time > hr >= end_time:
             if r < 400:
