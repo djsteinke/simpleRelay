@@ -12,7 +12,7 @@ from google.oauth2.credentials import Credentials
 from properties import TEXT_EMAIL
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/gmail.compose']
-path = os.path.abspath('/home/dan/projects/simpleRelay')
+path = os.path.abspath('/home/pi/projects/simpleRelay')
 path_token = os.path.join(path, 'token.json')
 path_client = os.path.join(path, 'client_secrets.json')
 
