@@ -41,7 +41,7 @@ def main():
 
     try:
         msg = create_message(None, None, None, None)
-        message = (service.users().messages().send(userId='me', body=msg['raw'])
+        message = (service.users().messages().send(userId='me', body=msg)
                    .execute())
         print('Message Id: %s' % message['id'])
         return message
