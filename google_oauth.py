@@ -11,7 +11,7 @@ import requests
 import json
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ['email']
+SCOPES = ['https://www.googleapis.com/auth/gmail.compose']
 path = os.path.abspath('/home/pi/projects/simpleRelay')
 path_token = os.path.join(path, 'token.json')
 path_client = os.path.join(path, 'client_secrets.json')
@@ -36,8 +36,17 @@ def main():
         exit()
 
     if os.path.exists(path_token):
-        token_str = open(path_token, 'r')
-        creds = Credentials(token_str, scopes=SCOPES, client_id=secrets['client_id'], client_secret=secrets['client_secret'])
+        token_str = open(path_token, 'r').read()
+        credentials_dict = json.loads(token_str)
+
+        creds = Credentials(
+            token_str,
+            refresh_token=credentials_dict["refresh_token"],
+            token_uri=secrets["token_uri"],
+            client_id=secrets["client_id"],
+            client_secret=secrets["client_secret"],
+            scopes=SCOPES)
+        # creds = Credentials(token_str, scopes=SCOPES, client_id=secrets['client_id'], client_secret=secrets['client_secret'])
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -66,18 +75,16 @@ def check_auth():
     data += '&grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Adevice_code'
     r = requests.post(url=url, headers=headers, data=data)
     r_str = r.content
-    print(r_str)
     r_json = json.loads(r_str)
     print(json.dumps(r_json))
     if 'error' in r_json:
-        print('error path')
         time.sleep(device['interval'])
         check_auth()
     elif 'access_token' in r_json:
-        print('access_token path')
+        creds = Credentials.from_authorized_user_file(path_client, SCOPES)
+        creds.token = r_json
         f = open(path_token, "w")
-        f.write(json.dumps(r_json))
-        creds = Credentials.from_authorized_user_file(path_token, SCOPES)
+        f.write(creds.to_json())
         check_email()
     else:
         print(json.dumps(r_json))
