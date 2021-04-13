@@ -1,10 +1,16 @@
+import base64
 import os.path
+from email.mime.text import MIMEText
+
+from googleapiclient import errors
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 
 # If modifying these scopes, delete the file token.json.
+from properties import TEXT_EMAIL
+
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/gmail.compose']
 path = os.path.abspath('/home/dan/projects/simpleRelay')
 path_token = os.path.join(path, 'token.json')
@@ -26,25 +32,28 @@ def main():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                path_client, SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
+            print('missing/invalid token')
+            exit()
         with open(path_token, 'w') as token:
             token.write(creds.to_json())
 
     service = build('gmail', 'v1', credentials=creds)
 
-    # Call the Gmail API
-    results = service.users().labels().list(userId='me').execute()
-    labels = results.get('labels', [])
+    try:
+        message = (service.users().messages().send(userId='me', body=create_message(None, None, None, None))
+                   .execute())
+        print('Message Id: %s' % message['id'])
+        return message
+    except errors.HttpError as error:
+        print('An error occurred: %s' % error)
 
-    if not labels:
-        print('No labels found.')
-    else:
-        print('Labels:')
-        for label in labels:
-            print(label['name'])
+
+def create_message(sender, to, subject, message_text):
+    message = MIMEText('test')
+    message['to'] = TEXT_EMAIL
+    message['from'] = 'pi'
+    message['subject'] = 'pi text'
+    return {'raw': base64.urlsafe_b64encode(message.as_string())}
 
 
 if __name__ == '__main__':
