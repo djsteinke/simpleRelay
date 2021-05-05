@@ -39,16 +39,26 @@ GPIO.setwarnings(False)
 
 tof = TOF()
 notify = Notify(tof)
+relay = None
+running = False
+
+
+def complete():
+    global running
+    running = False
 
 
 @app.route('/relay/<pin_in>')
 def relay_action(pin_in):
+    global relay, running
     logger.debug(f"relay[{pin_in}] action[ON] time[1]")
     status = 200
     hr = dt.datetime.now().hour
     if start_time <= hr < end_time:
-        relay = Relay(int(pin_in))
-        relay.on()
+        if not running:
+            relay = Relay(int(pin_in), complete)
+            relay.on()
+            running = True
     else:
         status = 503
     return jsonify(message="Success",

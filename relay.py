@@ -7,10 +7,11 @@ import RPi.GPIO as GPIO
 
 
 class Relay(object):
-    def __init__(self, pin):
+    def __init__(self, pin, callback):
         self._on = False
         self._pin = pin
         self._delay = 1
+        self._callback = callback
         GPIO.setup(self._pin, GPIO.OUT)
         if GPIO.input(self._pin) == 0:
             self._on_state = GPIO.HIGH
@@ -39,3 +40,5 @@ class Relay(object):
         # TODO turn off
         self._on = False
         GPIO.output(self._pin, self._off_state)
+        if self._callback is not None:
+            self._callback()
